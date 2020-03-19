@@ -52,3 +52,13 @@ vultr Asia Pacific Singapore - 45.32.100.168
 vultr Asia Pacific Tokyo - 108.61.201.151
 vultr Asia Pacific Sydney - 108.61.212.117
 
+# Linode https://www.linode.com/speed-test/
+
+# Digital Ocean http://speedtest-sfo2.digitalocean.com/
+
+# GCP http://www.gcping.com/config.js http://www.gcping.com/descs.js
+
+# Azure https://www.azurespeed.com/Azure/Latency
+
+# TODO: Collect the ip addresses or domain above.
+
