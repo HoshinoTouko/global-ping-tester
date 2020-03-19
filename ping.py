@@ -1,4 +1,6 @@
 from collections import OrderedDict
+
+from Core import utils
 from Core.Ping import Ping
 
 import os
@@ -34,10 +36,10 @@ class PingTester:
         print('The program will start at %s, the last task will be start at %s.' % (
             started_at_label, end_at_label
         ))
-        print('With %d tasks scheduled during at least %d seconds.' % (
-            self.total_schedule, self.end_at - self.started_at
+        print('Ping %d locations, with %d tasks scheduled during at least %d seconds.' % (
+            len(self.ipaddrs.keys()), self.total_schedule, self.end_at - self.started_at
         ))
-        print('Ping %d locations, press [Enter] to start.' % len(self.ipaddrs.keys()))
+        print('OS: [%s], press [Enter] to start.' % utils.get_os())
         input()
         if clear:
             # Clear history logs.
@@ -118,11 +120,11 @@ class PingTester:
 
     def icmping(self, ip_addr, label, trig_time, **kwargs):
         if not self.tcping_only(label):
-            print('ICMP Ping start:', label, ip_addr, trig_time)
+            print('ICMP Ping:', '[%s]' % label, ip_addr, trig_time)
             self.processes_pool.apply_async(
                 Ping.icmping, (ip_addr, label, trig_time), kwargs,
             )
-        print('TCP Ping start:', label, ip_addr, trig_time)
+        print('TCP Ping:', '[%s]' % label, ip_addr, trig_time)
         self.processes_pool.apply_async(
             Ping.tcping, (ip_addr, label, trig_time), kwargs,
         )

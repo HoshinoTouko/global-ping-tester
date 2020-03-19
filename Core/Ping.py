@@ -1,19 +1,27 @@
-import subprocess
-
+from Core import utils
 from Core.TCPing import TCPing
+
+import subprocess
 
 
 class Ping:
     @classmethod
     def icmping(
             cls, ip_addr, label, trig_time,
-            count=10, size=32, logger=print
+            count=10, size=None, logger=print
     ):
         params = []
         if count:
-            params.append('-n %s' % count)
+            if utils.is_windows():
+                params.append('-n %s' % count)
+            if utils.is_linux():
+                params.append('-c %s' % count)
         if size:
-            params.append('-l %s ' % size)
+            if utils.is_windows():
+                params.append('-l %s ' % size)
+            if utils.is_linux():
+                params.append('-s %s' % size)
+
         _command = 'ping.exe %s %s' % (str(ip_addr), ' '.join(params))
         # print('Execute', _command)
         res = subprocess.check_output(
