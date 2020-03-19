@@ -178,7 +178,7 @@ class PingTester:
         self.__dict__.update(state)
 
 
-def main():
+def test():
     tester = PingTester()
     tester.load_ipaddr()
     tester.schedule(120, 600)
@@ -188,4 +188,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    test()
