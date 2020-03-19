@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from Core.Ping import Ping
 
 import os
 import multiprocessing
@@ -20,9 +21,6 @@ def first(s):
 class PingTester:
     def __init__(self):
         self.processes_pool = multiprocessing.Pool(processes=10)
-        self.params = [
-            '-n 10'
-        ]
         self.ipaddrs = {}
         self.scheduled = OrderedDict()
 
@@ -35,10 +33,12 @@ class PingTester:
             old_logs = os.walk('./logs')
             for root, _, filenames in old_logs:
                 for filename in filenames:
-                    if filename.endswith('.ping.log'):
+                    if filename.endswith('.log'):
                         full_path = os.path.join(root, filename)
                         print('Remove file:', full_path)
                         os.remove(full_path)
+
+        # Do scheduled ping tasks
         while self.scheduled:
             now = int(time.time())
             while self.scheduled and first(self.scheduled) <= now:
@@ -49,7 +49,7 @@ class PingTester:
                     if not ip_addrs:
                         break
                     ip_addr = random.choice(ip_addrs)
-                    self.ping(ip_addr, label, int(time.time()))
+                    self.icmping(ip_addr, label, int(time.time()), logger=self.log)
                 del self.scheduled[scheduled_time]
             time.sleep(0.9)
 
@@ -99,27 +99,34 @@ class PingTester:
             for line in fi.readlines():
                 self.load_data(line)
 
-    def ping(self, ip_addr, label, trig_time, params=None):
-        print('Start ping:', label, ip_addr, trig_time)
-        params = params if params else self.params
-        return self.processes_pool.apply_async(self._ping, (ip_addr, label, trig_time, params))
-
-    def _ping(self, ip_addr, label, trig_time, params):
-        # sys.stdout = open(str(os.getpid()) + ".out", "a", buffering=0)
-
-        _command = 'ping.exe %s %s' % (str(ip_addr), ' '.join(params))
-        # print('Execute', _command)
-        res = subprocess.check_output(
-            _command,
-            # stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            universal_newlines=True, shell=True
+    def icmping(self, ip_addr, label, trig_time, **kwargs):
+        if 'TCPingOnly' not in label:
+            print('ICMP Ping start:', label, ip_addr, trig_time)
+            self.processes_pool.apply_async(
+                Ping.icmping, (ip_addr, label, trig_time), kwargs,
+            )
+        print('TCP Ping start:', label, ip_addr, trig_time)
+        self.processes_pool.apply_async(
+            Ping.tcping, (ip_addr, label, trig_time), kwargs,
         )
-        self.log(ip_addr, label, trig_time, res)
-        return res
 
-    def log(self, ip_addr, label, trig_time, result):
-        with open('./logs/%s.ping.log' % label, 'a') as fi:
-            fi.write('%s: %s%s----------\n' % (
+    # Deprecated
+    # def _ping(self, ip_addr, label, trig_time, params):
+    #     # sys.stdout = open(str(os.getpid()) + ".out", "a", buffering=0)
+    #
+    #     _command = 'ping.exe %s %s' % (str(ip_addr), ' '.join(params))
+    #     # print('Execute', _command)
+    #     res = subprocess.check_output(
+    #         _command,
+    #         # stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    #         universal_newlines=True, shell=True
+    #     )
+    #     self.log(ip_addr, label, trig_time, res)
+    #     return res
+
+    def log(self, ip_addr, label, trig_time, ping_type, result):
+        with open('./logs/[%s] %s.log' % (ping_type.upper(), label), 'a') as fi:
+            fi.write('%s: %s\n%s\n----------\n' % (
                 trig_time, ip_addr, result
             ))
 
