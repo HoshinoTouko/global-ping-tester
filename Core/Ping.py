@@ -22,7 +22,7 @@ class Ping:
             if utils.is_linux():
                 params.append('-s %s' % size)
 
-        _command = 'ping.exe %s %s' % (str(ip_addr), ' '.join(params))
+        _command = 'ping %s %s' % (str(ip_addr), ' '.join(params))
         # print('Execute', _command)
         res = subprocess.check_output(
             _command,
