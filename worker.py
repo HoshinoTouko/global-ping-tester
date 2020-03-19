@@ -11,7 +11,7 @@ def main(argv):
 
     tester = PingTester()
     tester.load_ipaddr()
-    tester.schedule(interval, period)
+    tester.schedule(int(interval), int(period))
     tester.start(clear=True)
 
     tester.wait_for_end()
