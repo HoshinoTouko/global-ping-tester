@@ -33,24 +33,46 @@ AWS CHINA Ningxia - 52.82.0.253 52.83.214.0 161.189.0.253
 
 # Vultr https://www.vultr.com/features/datacenter-locations/
 
-vultr North America Atlanta - 108.61.193.166
-vultr North America Chicago - 107.191.51.12
-vultr North America Dallas - 108.61.224.175
-vultr North America LosAngeles - 108.61.219.200
-vultr North America Miami - 104.156.244.232
-vultr North America New Jersey - 108.61.149.182
-vultr North America Seattle - 108.61.194.105
-vultr North America Silicon Valley - 104.156.230.107
-vultr North America Toronto - 149.248.50.81
+Vultr North America Atlanta - 108.61.193.166
+Vultr North America Chicago - 107.191.51.12
+Vultr North America Dallas - 108.61.224.175
+Vultr North America LosAngeles - 108.61.219.200
+Vultr North America Miami - 104.156.244.232
+Vultr North America New Jersey - 108.61.149.182
+Vultr North America Seattle - 108.61.194.105
+Vultr North America Silicon Valley - 104.156.230.107
+Vultr North America Toronto - 149.248.50.81
 
-vultr EU Amsterdan - 108.61.198.102
-vultr EU Frankfurt - 108.61.210.117
-vultr EU London - 108.61.196.101
-vultr EU Paris - 108.61.209.127
+Vultr EU Amsterdan - 108.61.198.102
+Vultr EU Frankfurt - 108.61.210.117
+Vultr EU London - 108.61.196.101
+Vultr EU Paris - 108.61.209.127
 
-vultr Asia Pacific Singapore - 45.32.100.168
-vultr Asia Pacific Tokyo - 108.61.201.151
-vultr Asia Pacific Sydney - 108.61.212.117
+Vultr Asia Pacific Singapore - 45.32.100.168
+Vultr Asia Pacific Tokyo - 108.61.201.151
+Vultr Asia Pacific Sydney - 108.61.212.117
+
+# Aliyun https://yq.aliyun.com/articles/705374
+
+Aliyun 青岛 - 47.104.38.82
+Aliyun 北京 - 59.110.190.69
+Aliyun 张家口 - 47.92.17.36
+Aliyun 呼和浩特 - 39.104.9.1
+Aliyun 杭州 - 118.31.219.247
+Aliyun 上海 - 106.14.228.194
+Aliyun 深圳 - 120.77.166.226
+Aliyun 香港 - 47.75.18.65
+Aliyun 硅谷 - 47.88.73.1
+Aliyun 弗吉尼亚 - 47.252.95.42
+Aliyun 新加坡 - 47.74.196.40
+Aliyun 悉尼 - 47.91.39.21
+Aliyun 吉隆坡 - 47.254.218.88
+Aliyun 东京 - 47.91.8.42
+Aliyun 法兰克福 - 47.254.186.9
+Aliyun 迪拜 - 47.91.99.127
+
+# Aliyun OSS https://help.aliyun.com/document_detail/31837.html?spm=a2c4g.11186623.2.19.3ec531bbltUtIm#concept-zt4-cvy-5db
+# Consider later
 
 # Linode https://www.linode.com/speed-test/
 

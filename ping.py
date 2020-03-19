@@ -20,14 +20,25 @@ def first(s):
 
 class PingTester:
     def __init__(self):
-        self.processes_pool = multiprocessing.Pool(processes=10)
-        self.ipaddrs = {}
+        self.processes_pool = multiprocessing.Pool(processes=32)
+        self.ipaddrs = OrderedDict()
         self.scheduled = OrderedDict()
 
         self.started_at = 0
         self.end_at = 0
 
     def start(self, clear=False):
+        time_string_format = '%Y-%m-%d %H:%M:%S'
+        started_at_label = time.strftime(time_string_format, time.localtime(self.started_at))
+        end_at_label = time.strftime(time_string_format, time.localtime(self.end_at))
+        print('The program will start at %s, the last task will be start at %s.' % (
+            started_at_label, end_at_label
+        ))
+        print('With %d tasks scheduled during at least %d seconds.' % (
+            self.total_schedule, self.end_at - self.started_at
+        ))
+        print('Ping %d locations, press [Enter] to start.' % len(self.ipaddrs.keys()))
+        input()
         if clear:
             # Clear history logs.
             old_logs = os.walk('./logs')
@@ -56,7 +67,8 @@ class PingTester:
     def schedule(self, interval, period=600):
         started_at = int(time.time())
 
-        step = 1 if interval > len(self.ipaddrs.keys()) else len(self.ipaddrs.keys()) / interval
+        step = interval / len(self.ipaddrs.keys())
+        # step = 1 if interval > len(self.ipaddrs.keys()) else interval / len(self.ipaddrs.keys())
         for _round in range(int(period / interval)):
             offset = 0.
             for ip_addr in self.ipaddrs.keys():
@@ -95,12 +107,17 @@ class PingTester:
                     if file.endswith('.ipaddr'):
                         datafiles.append(os.path.join(root, file))
         for datafile in datafiles:
-            fi = open(datafile)
+            fi = open(datafile, encoding='utf-8')
             for line in fi.readlines():
                 self.load_data(line)
 
+        # Shuffle the ip addresses
+        ipaddrs_to_shuffle = list(self.ipaddrs.items())
+        random.shuffle(ipaddrs_to_shuffle)
+        self.ipaddrs = OrderedDict(ipaddrs_to_shuffle)
+
     def icmping(self, ip_addr, label, trig_time, **kwargs):
-        if 'TCPingOnly' not in label:
+        if not self.tcping_only(label):
             print('ICMP Ping start:', label, ip_addr, trig_time)
             self.processes_pool.apply_async(
                 Ping.icmping, (ip_addr, label, trig_time), kwargs,
@@ -134,6 +151,19 @@ class PingTester:
         self.processes_pool.close()
         self.processes_pool.join()
 
+    def tcping_only(self, label):
+        return 'TCPing' in label
+
+    @property
+    def total_schedule(self):
+        total = 0
+        for label in self.scheduled.values():
+            if self.tcping_only(label):
+                total += 1
+            else:
+                total += 2
+        return total
+
     # We should init our customize get function because the pool objects cannot be pickled
     def __getstate__(self):
         self_dict = self.__dict__.copy()
@@ -149,7 +179,7 @@ class PingTester:
 def main():
     tester = PingTester()
     tester.load_ipaddr()
-    tester.schedule(30, 300)
+    tester.schedule(120, 600)
     tester.start(clear=True)
 
     tester.wait_for_end()
