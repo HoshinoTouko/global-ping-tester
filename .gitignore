@@ -1,3 +1,12 @@
+# Project
+logs/*
+!.gitkeep
+ipaddr_dataset/private.ipaddr
+
+# IDE
+.idea/
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
