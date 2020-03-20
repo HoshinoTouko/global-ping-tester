@@ -80,6 +80,30 @@ Aliyun 迪拜 - 47.91.99.127
 
 # GCP http://www.gcping.com/config.js http://www.gcping.com/descs.js
 
+GCP Taiwan - 104.155.201.52
+GCP Hong Kong - 35.220.162.209
+GCP Tokyo - 104.198.86.148
+GCP Osaka - 34.97.196.51
+GCP Seoul - 34.64.138.27
+GCP Mumbai - 35.200.186.152
+GCP Singapore - 35.185.179.198
+GCP Sydney - 35.189.6.113
+GCP Hamina Finland - 35.228.170.201
+GCP Belgium - 104.199.82.109
+GCP London - 35.189.67.146
+GCP Frankfurt - 35.198.78.172
+GCP Netherlands - 35.204.93.82
+GCP Zurich - 34.65.3.254
+GCP global - 35.186.221.153
+GCP Montreal - 35.203.57.164
+GCP Sao Paulo - 35.198.10.68
+GCP Iowa - 104.197.165.8
+GCP South Carolina - 104.196.161.21
+GCP Northern Virginia - 35.186.168.152
+GCP Oregon - 104.199.116.74
+GCP Los Angeles - 35.236.45.25
+GCP San Francisco - 34.106.137.137
+
 # Azure https://www.azurespeed.com/Azure/Latency
 
 # TODO: Collect the ip addresses or domain above.
