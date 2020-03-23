@@ -27,7 +27,7 @@ class Ping:
         res = subprocess.check_output(
             _command,
             # stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            universal_newlines=True, shell=True
+            universal_newlines=True, # shell=True
         )
         logger(ip_addr, label, trig_time, 'icmping', res)
         return res
