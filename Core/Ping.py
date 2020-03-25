@@ -2,7 +2,7 @@ from Core import utils
 from Core.TCPing import TCPing
 
 import subprocess
-
+import os
 
 class Ping:
     @classmethod
@@ -24,11 +24,14 @@ class Ping:
 
         _command = 'ping %s %s' % (str(ip_addr), ' '.join(params))
         # print('Execute', _command)
-        res = subprocess.check_output(
-            _command,
-            # stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            universal_newlines=True, # shell=True
-        )
+        if utils.is_windows():
+            res = subprocess.check_output(
+                _command,
+                # stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                universal_newlines=True, # shell=True
+            )
+        if utils.is_linux():
+            res = os.popen(_command).readlines()
         res = utils.handle_rawdata(res, count)
         logger(ip_addr, label, trig_time, 'icmping', res)
         return res
